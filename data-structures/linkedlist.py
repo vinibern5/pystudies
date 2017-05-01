@@ -1,4 +1,5 @@
 #Implementação simples de uma lista encadeada (recursiva?)
+#Precisa de melhorias (muito lenta)
 
 class Node(object):
     dado = None
