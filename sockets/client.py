@@ -3,11 +3,13 @@
 from socket import *
 from time import sleep
 
-recebe = lambda sckt: sckt.recv(1024).decode('utf8') #Func p/ receber msgs
-envia = lambda sckt, msg: sckt.send(msg.encode('utf8')) #Func p/ enviar msgs
+def recebe(sckt):
+    return sckt.recv(1024).decode('utf8') #Func p/ receber msgs
+def envia(sckt, msg):
+    sckt.send(msg.encode('utf8')) #Func p/ enviar msgs
 
-def menu():
-    opcs ='''
+def menu(): 
+    opcs =''' 
 1 - Data
 2 - Nome do computador
 3 - Quantidade de núcleos
@@ -16,7 +18,8 @@ def menu():
 6 - ID do processo do servidor
 7 - Abrir a calculadora
 8 - Abrir um terminal python pelo cmd (talvez não funcione por configs de PATH)
-9 - 
+9 - Tempo de usuário no processo servidor
+10 - Tempo do sistema no processo servidor
 0 - Sair
 
 
@@ -39,27 +42,32 @@ def menu():
         envia(s,'7')
     elif op == '8':
         envia(s,'8')
+    elif op == '9':
+        envia(s,'9')
+    elif op == '10':
+        envia(s,'10')
     elif op == '0':
         envia(s,'0')
         print('Saindo da aplicação...')
         s.close()
         sleep(2)
-        return True
-    
+        return True 
+    else:
+        print('Opção invalida!')
+        return menu()
 
 
- # create a socket object
+#Instancia um objeto do tipo socket
 s = socket(AF_INET, SOCK_STREAM)
- # get local machine name
+
 host = gethostname()
 port = 9999
- # connection to hostname on the port.
-s.connect((host, port))
+
+s.connect((host, port)) #Se conecta com o nosso servidor
 status = recebe(s)
 print(status)
 
 
-#s.send('Comunicação estabelecida!'.encode('utf8'))
 
 while True:
     if menu() == True:
@@ -67,4 +75,4 @@ while True:
     print(recebe(s))
 
 
-#s.close()
+
